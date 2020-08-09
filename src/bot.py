@@ -28,19 +28,35 @@ class Bot:
         self._driver.close()
         self._driver.switch_to_window(self._driver.window_handles[0])
 
-    def Speak(self):
+    def Interpretation(self, msg_tab)
+        return 0
+
+    def SpeakWithPeople(self):
+        print("Wait 1 min...")
         sleep(60)
         i = 1
-        message = "coucou, ca va ?"
+        boucle = 0
+        message = "Salut, cava ?"
         while True:
-            self._driver.find_element_by_id("ongdiv"+str(i)).click()
-            sleep(2)
-            self._driver.find_element_by_id("cocoa").send_keys(message)
-            self._driver.find_element_by_id("cocoa").send_keys(Keys.RETURN)
+            try:
+                username = self._driver.find_element_by_id("ongun"+str(i)).text
+                print("go speak with id ->", i, "And username ->", username)
+                self._driver.find_element_by_id("ongun"+str(i)).click()
+                print("LOG: ")
+                elements = self._driver.find_elements_by_id("textum")
+                # message = self.Interpretation(elements)
+                self._driver.find_element_by_id("cocoa").send_keys(message)
+                self._driver.find_element_by_id("cocoa").send_keys(Keys.RETURN)
+                boucle = boucle + 1
+            except NoSuchElementException:
+                print("Get Exception... id = ", i)
+                i = 1
+                sleep(30)
+            i = i + 1
 
     def Start(self):
         self.ConnexionChat()
-        self.Speak()
+        self.SpeakWithPeople()
 
     def Finish(self):
         self._driver.quit()
