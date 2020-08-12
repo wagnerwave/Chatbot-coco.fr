@@ -8,7 +8,7 @@ from time import sleep
 
 Website = "https://coco.fr"
 DriverPath = "./geckodriver"
-
+MAX_DIAL = 12
 ## Convert List To String
 def listToString(s):
     # initialize an empty string
@@ -38,9 +38,13 @@ class Bot:
 
     def Interpretation(self, discution, username):
         discution = listToString(discution.encode("utf-8"))
-        user_send = discution.split('\n')
-        user_send = discution.split(':')
-        user_send = listToString(user_send[1])
+        print("dial total", discution)
+        user_send = discution.rsplit('\n', 1)
+        print("dernier message ->", user_send)
+        user_send = listToString(user_send)
+        user_send = user_send.split(':')
+        print("after split :", user_send)
+        user_send = listToString(user_send[-1])
         print("user say ->", user_send)
         try:
             msg = self._bot.single_exchange(user_send)
@@ -55,6 +59,8 @@ class Bot:
         i = 1
         message = "Salut, cava ?"
         while True:
+            if (i > MAX_DIAL):
+                i = 1
             try:
                 username = self._driver.find_element_by_id("ongun"+str(i)).text
                 print("go speak with id ->", i, "And username ->", username)
@@ -68,7 +74,7 @@ class Bot:
                     sleep(2)
             except NoSuchElementException:
                 print("d = ", i)
-                i = 1
+                i = 0
                 sleep(10)
             i = i + 1
 
@@ -78,18 +84,3 @@ class Bot:
 
     def Finish(self):
         self._driver.quit()
-
-
-
-
-#        today = date.today()
-#        time_now = date.now()
-#
-#        x = {
-#            "username", username,
-#            "message", msg_tab,
-#            "date", today.strftime("%d/%m/%Y"),
-#            "time", time_now.strftime("%H:%M:%S")
-#        }
-#
-#        y = json.dumps(x)
