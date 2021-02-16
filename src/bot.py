@@ -31,13 +31,13 @@ class Bot:
         self._driver.find_element_by_id("ageu").send_keys(self._Years)
         self._driver.find_element_by_id("nicko").send_keys(self._Pseudo)
         self._driver.find_element_by_id("femme").click()
-        self._driver.find_element_by_id("tchater").click()
+        self._driver.find_element_by_class_name("bouton").click()
         self._driver.switch_to_window(window_before)
         self._driver.close()
         self._driver.switch_to_window(self._driver.window_handles[0])
 
     def Interpretation(self, discution, username):
-        discution = listToString(discution.encode("utf-8"))
+        discution = listToString(discution)
         print("dial total", discution)
         user_send = discution.rsplit('\n', 1)
         print("dernier message ->", user_send)
